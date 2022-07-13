@@ -1,0 +1,8 @@
+<h2>Curso: {{curCourse.name}} - ID: {{curCourse.idCourse}} </h2>
+<mat-divider inset></mat-divider>
+<h3>Alumnos en este curso</h3>
+<p *ngFor="let student of curStudents">
+    <label>
+        {{student.idPerson}} - {{student.name}} {{student.lastname}} ({{student.email}})
+    </label>
+</p>

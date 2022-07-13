@@ -1,0 +1,37 @@
+<mat-card>
+    <div>
+        <form [formGroup]="studentForm">
+            <mat-form-field>
+                <input matInput
+                type="text" placeholder="Nombre" formControlName="name" >
+                <mat-error *ngIf="studentForm.get('name')?.errors?.required && studentForm.get('name')?.touched">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput
+                type="text" placeholder="Apellido" formControlName="lastname">
+                <mat-error *ngIf="studentForm.get('lastname')?.errors?.required && studentForm.get('lastname')?.touched">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput
+                [matDatepicker]="picker" 
+                placeholder="Choose a date of birth"
+                    readonly (click)="picker.open()">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>    
+            <mat-form-field>
+                <input matInput
+                type="email" placeholder="E-mail" formControlName="email">
+                <mat-error *ngIf="studentForm.get('email')?.errors?.required && studentForm.get('email')?.touched">Debe colocar una dirección de e-mail</mat-error>
+                <mat-error *ngIf="studentForm.get('email')?.errors?.email && studentForm.get('email')?.touched">E-mail inválido</mat-error>
+            </mat-form-field>
+        </form>
+        <div class="actions">
+            <button mat-flat-button color="primary"
+                (click)="onSave()"
+                [disabled]="studentForm.invalid">
+                Guardar
+            </button>
+        </div>
+    </div>
+</mat-card>

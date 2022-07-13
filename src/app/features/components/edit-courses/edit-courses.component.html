@@ -1,0 +1,8 @@
+<div class="container">
+    <input matInput type="text" placeholder="Nombre del curso" [(ngModel)]="curCourse">
+    <button mat-flat-button color="primary"
+    (click)="onSave()"
+    [disabled]="!curCourse">
+        Guardar
+    </button>
+</div>

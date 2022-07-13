@@ -1,0 +1,38 @@
+<div *ngIf="dataCoursesList" class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of dataCoursesList;">
+                <td>
+                    {{course.idCourse}}
+                </td>
+                <td>
+                    {{course.name}}
+                </td>
+                <td class="td-actions">   
+                    <button mat-flat-button color="accent"
+                        (click)="onEdit(course)"
+                    >
+                        Modificar
+                    </button>  
+                    <button mat-button color="primary"
+                        (click)="onDetails(course)"
+                    >
+                        Más detalles
+                    </button>  
+                    <button mat-button color="warn"
+                        (click)="onDelete(course)"
+                    >
+                        Eliminar
+                    </button> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
