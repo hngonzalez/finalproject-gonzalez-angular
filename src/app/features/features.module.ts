@@ -1,3 +1,4 @@
+import { MaterialModule } from './../../../../pf1-gonzalez2/src/app/modules/material/material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +12,8 @@ import { FeaturesComponent } from './features.component';
   ],
   imports: [
     CommonModule,
-    FeaturesRoutingModule
+    FeaturesRoutingModule,
+    MaterialModule
   ]
 })
 export class FeaturesModule { }
