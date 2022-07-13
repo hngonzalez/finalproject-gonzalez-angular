@@ -8,11 +8,8 @@ import { FeaturesComponent } from './features.component';
 const routes: Routes = [
   { 
     path: '',
+    component: FeaturesComponent,
     children: [
-      { 
-        path: '', 
-        component: FeaturesComponent
-      },
       { 
         path: 'students', 
         component: StudentsComponent
