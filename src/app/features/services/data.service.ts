@@ -48,7 +48,7 @@ export class DataService {
     return this.dataClassrooms;
   }
 
-  getStudentsByCourseId(idCourse: number): Person[] {
+  getStudentsByCourseId(idCourse: number): Observable<Person[]> {
     let dataPersons = new Array();
 
     this.dataPersonsList.forEach(element => {
@@ -64,7 +64,7 @@ export class DataService {
       }
     });
 
-    return dataPersons;
+    return of(dataPersons);
   }
 
   getDataCoursesById(personId: number): Promise<Person> {
@@ -174,6 +174,21 @@ export class DataService {
     })
 
     this.dataCourses.splice(indexToDelete, 1);
+  }
+
+  deleteStudentFromCourse(idCourse: number, idPerson: number) {
+    this.dataPersonsList.forEach(element => {
+      if (element.type == 'student' && element.idPerson == idPerson) {
+        var index = element.courses.findIndex((course: Course) => {
+          return course.idCourse == idCourse
+        })
+
+        element.courses.splice(index, 1);
+      }
+    });
+    let indexToDelete = this.dataPersonsList.findIndex( (person:Person) => {
+      
+    })
   }
 
   updateCourse(course: string, idCourse: number) {

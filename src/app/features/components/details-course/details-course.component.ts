@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Course } from './../../models/course';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,6 +13,7 @@ import { DataService } from '../../services/data.service';
 export class DetailsCourseComponent implements OnInit {
   curCourse!: Course;
   curStudents!: Person[];
+  curStudents$: Subscription = new Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<DetailsCourseComponent>,
@@ -21,7 +23,17 @@ export class DetailsCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.curCourse = this.data.elementRow;
-    this.curStudents = this._dataService.getStudentsByCourseId(this.curCourse.idCourse);
+    this.curStudents$ = this._dataService.getStudentsByCourseId(this.curCourse.idCourse)
+    .subscribe((resp) => {
+      this.curStudents = resp;
+    });
   }
 
+  onDelete(idCourse: number, idPerson: number) {
+    this._dataService.deleteStudentFromCourse(idCourse, idPerson);
+    var index = this.curStudents.findIndex((person: Person) => {
+      return person.idPerson == idPerson
+    })
+    this.curStudents.splice(index, 1);
+  }
 }

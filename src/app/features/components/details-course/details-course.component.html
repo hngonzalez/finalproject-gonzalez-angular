@@ -5,4 +5,9 @@
     <label>
         {{student.idPerson}} - {{student.name}} {{student.lastname}} ({{student.email}})
     </label>
+    <button mat-button color="warn"
+        (click)="onDelete(curCourse.idCourse, student.idPerson)"
+    >
+        Eliminar
+    </button>
 </p>
