@@ -1,3 +1,4 @@
+import { AuthService } from './../../../core/auth/services/auth.service';
 import { Subscription } from 'rxjs';
 import { EditStudentComponent } from './../edit-student/edit-student.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,18 +18,20 @@ export class ListComponent implements OnInit, OnDestroy {
   dataPersonsList?: Person[];
   dataPersonsList$?: Subscription;
   studentsList?: Person[];
+  curUser: string;
   confirmation: boolean = false;
   
   displayedColumns: string[] = ['idPerson', 'name', 'lastname', 'email', 'curso', 'actions'];
   
   constructor(
     private _dataService: DataService,
+    private _dataAuth: AuthService,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.confirmation = false;
-    //this.dataPersonsList = this._dataService.getStudents();
+    this.curUser = localStorage.getItem('type')
     this.dataPersonsList$ = this._dataService.getStudents()
     .subscribe((studentList:Person[]) => {
       this.dataPersonsList = studentList;

@@ -16,7 +16,7 @@ export class DataService {
     {idPerson: 3, username: 'frgonzalez', password:'admin', name: 'Franco', lastname: 'Gonzalez', type:'student', email: 'Franco@outlook.com', courses: []},
     {idPerson: 4, username: 'lgonzalez', password:'admin', name: 'Laura', lastname: 'Gonzalez', type:'student', email: 'Laura@outlook.com', courses: [{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
     {idPerson: 5, username: 'admin', password:'admin', name: 'Miguel', lastname: 'Apellidito', type:'admin', email: 'Miguel@outlook.com', courses: []},
-    {idPerson: 6, username: 'jalgo', password:'admin', name: 'Joaquin', lastname: 'Algo', type:'user', email: 'Joaquin@outlook.com', courses: []},
+    {idPerson: 6, username: 'user', password:'user', name: 'Joaquin', lastname: 'Algo', type:'user', email: 'Joaquin@outlook.com', courses: []},
     {idPerson: 7, username: 'npipez', password:'admin', name: 'Nombrecito', lastname: 'Pipez', type:'user', email: 'Nombrecito@outlook.com', courses: []},
     {idPerson: 8, username: 'puerpowi', password:'admin', name: 'Paula', lastname: 'Uerpowi', type:'user', email: 'Paula@outlook.com', courses: []},
   ];
@@ -52,11 +52,16 @@ export class DataService {
     let dataPersons = new Array();
 
     this.dataPersonsList.forEach(element => {
-      element.courses.forEach(course => {
-        if (course.idCourse == idCourse) {
-          dataPersons.push(element);
-        }
-      })
+      if (element) {
+        element.courses.forEach(course => {
+          if (course) {
+            
+          if (course.idCourse == idCourse) {
+            dataPersons.push(element);
+          }
+          }
+        })
+      }
     });
 
     return dataPersons;
@@ -153,9 +158,9 @@ export class DataService {
     this.dataPersonsList.splice(indexToDelete, 1);
   }
 
-  deleteCourse(course: Course) {
+  deleteCourse(selectedCourse: Course) {
     let indexToDelete = this.dataCourses.findIndex((course: Course) => {
-      return course.idCourse == course.idCourse;
+      return course.idCourse == selectedCourse.idCourse;
     });
 
     this.dataPersonsList.forEach(person => {

@@ -1,3 +1,4 @@
+import { AuthService } from './../../../core/auth/services/auth.service';
 import { element } from 'protractor';
 import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +7,7 @@ import { DataService } from '../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCoursesComponent } from '../edit-courses/edit-courses.component';
 import { DetailsCourseComponent } from '../details-course/details-course.component';
+import { Person } from '../../models/person.model';
 
 @Component({
   selector: 'app-list-courses',
@@ -17,13 +19,16 @@ export class ListCoursesComponent implements OnInit {
   dataCoursesList$?: Subscription;
   studentsList?: Course[];
   confirmation: boolean = false;
+  curUser: string;
 
   constructor(
     private _dataService: DataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _dataAuth: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.curUser = localStorage.getItem('type');
     this.dataCoursesList$ = this._dataService.getCourses$()
     .subscribe((coursesList: Course[]) => {
       this.dataCoursesList = coursesList;

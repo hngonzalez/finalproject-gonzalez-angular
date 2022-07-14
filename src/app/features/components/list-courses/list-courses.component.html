@@ -1,5 +1,5 @@
 <div *ngIf="dataCoursesList" class="container">
-    <table>
+    <table *ngIf="curUser != 'user'">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,6 +31,32 @@
                     >
                         Eliminar
                     </button> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table *ngIf="curUser == 'user'">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of dataCoursesList;">
+                <td>
+                    {{course.idCourse}}
+                </td>
+                <td>
+                    {{course.name}}
+                </td>
+                <td class="td-actions">    
+                    <button mat-button color="primary"
+                        (click)="onDetails(course)"
+                    >
+                        Más detalles
+                    </button>  
                 </td>
             </tr>
         </tbody>

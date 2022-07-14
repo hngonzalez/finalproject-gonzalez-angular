@@ -1,12 +1,10 @@
 <div *ngIf="dataPersonsList" class="container">
-    <table>
+    <table *ngIf="curUser != 'user'">
         <thead>
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
-                <th></th>
-                <th></th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -20,12 +18,6 @@
                 </td>
                 <td *ngIf="person.type == filter">
                     {{person.email}}
-                </td>
-                <td *ngIf="person.type == filter">
-                    {{person.name}}
-                </td>
-                <td *ngIf="person.type == filter">
-                    {{person.name}}
                 </td>
                 <td *ngIf="person.type == filter"> 
                     <button mat-flat-button color="primary"
@@ -43,6 +35,28 @@
                     >
                         Eliminar
                     </button> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table *ngIf="curUser == 'user'">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let person of dataPersonsList;">
+                <td *ngIf="person.type == filter">
+                    {{person.name}}
+                </td>
+                <td *ngIf="person.type == filter">
+                    {{person.lastname}}
+                </td>
+                <td *ngIf="person.type == filter">
+                    {{person.email}}
                 </td>
             </tr>
         </tbody>

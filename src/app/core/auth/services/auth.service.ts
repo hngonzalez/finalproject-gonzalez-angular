@@ -24,6 +24,7 @@ export class AuthService {
       const person = this._dataService.dataPersonsList[index];
       if (person) {
         this.curPerson = person;
+        localStorage.setItem('type', this.curPerson.type)
         /* person.logged = true; */
         return resolve(person)
       }

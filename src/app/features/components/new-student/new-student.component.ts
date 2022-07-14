@@ -46,7 +46,8 @@ export class NewStudentComponent implements OnInit {
       this.studentForm.get('name').value,
       this.studentForm.get('lastname').value,
       this.studentForm.get('email').value,
-      this.arCourses
+      this.arCourses,
+      'student'
     );
     
     this._dataService.addStudent(newStudent);
