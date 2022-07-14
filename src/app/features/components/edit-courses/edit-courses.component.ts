@@ -1,3 +1,4 @@
+import { Person } from './../../models/person.model';
 import { Subscription } from 'rxjs';
 import { DataService } from './../../services/data.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,6 +17,7 @@ export class EditCoursesComponent implements OnInit {
   studentCourses$?: Subscription = new Subscription;
   availableCourses?: any;
   curCourse!: string;
+  curStudent: number;
   loaded: boolean = true;
   exist: boolean = false;
   
@@ -29,7 +31,11 @@ export class EditCoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.curCourse = this.data.elementRow.name;
+    this.curStudent = this.data.elementRow
+    this._dataService.getDataCoursesById(this.data.elementRow)
+    .then(resp => {
+      this.studentCourses = resp.courses;
+    });
   }
 
   onSave() {
@@ -37,5 +43,14 @@ export class EditCoursesComponent implements OnInit {
     this._snackBar.open('Cambios realizados!', '', {
       duration: 1500
     });
+  }
+
+  unsubscribeToClassroom(idCourse: number, idPerson: number) {
+    console.log(idCourse,idPerson)
+    this._dataService.deleteStudentFromCourse(idCourse, idPerson);
+    /* var index = this.curStudents.findIndex((person: Person) => {
+      return person.idPerson == idPerson
+    })
+    this.curStudents.splice(index, 1); */
   }
 }

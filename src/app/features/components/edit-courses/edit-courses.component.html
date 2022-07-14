@@ -1,8 +1,11 @@
 <div class="container">
-    <input matInput type="text" placeholder="Nombre del curso" [(ngModel)]="curCourse">
-    <button mat-flat-button color="primary"
-    (click)="onSave()"
-    [disabled]="!curCourse">
-        Guardar
-    </button>
+    <div *ngFor="let course of studentCourses">
+        {{course | json}}
+
+        <button mat-button color="warn"
+            (click)="unsubscribeToClassroom(course.idCourse, curStudent)"
+        >
+            Eliminar
+        </button> 
+    </div>
 </div>
