@@ -1,4 +1,5 @@
-import { MaterialModule } from './../../../../pf1-gonzalez2/src/app/modules/material/material.module';
+import { MaterialModule } from './../modules/material/material.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

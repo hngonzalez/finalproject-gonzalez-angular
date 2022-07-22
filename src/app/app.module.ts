@@ -22,6 +22,7 @@ import { StudentsComponent } from './features/pages/students/students.component'
 import { InscriptionsComponent } from './features/pages/inscriptions/inscriptions.component';
 import { ListCoursesComponent } from './features/components/list-courses/list-courses.component';
 import { DetailsCourseComponent } from './features/components/details-course/details-course.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DetailsCourseComponent } from './features/components/details-course/det
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,6 +4,8 @@ import { Classroom } from './../models/classroom';
 import { Course } from './../models/course';
 import { Injectable } from '@angular/core';
 import { Person } from '../models/person.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +13,14 @@ import { Person } from '../models/person.model';
 export class DataService {
 
   dataPersonsList: Person[] = [
-    {idPerson: 1, username: 'fgonzalez', password:'admin', name: 'Franco', lastname: 'Gonzalez', type:'student', email: 'Franco@outlook.com', courses: [{idCourse: 1, name: 'Análisis Matemático', idClassroom: 1},{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
-    {idPerson: 2, username: 'mgonzalez', password:'admin', name: 'Matias', lastname: 'Gonzalez', type:'student', email: 'Matias@outlook.com', courses: [{idCourse: 1, name: 'Análisis Matemático', idClassroom: 1},{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
-    {idPerson: 3, username: 'frgonzalez', password:'admin', name: 'Franco', lastname: 'Gonzalez', type:'student', email: 'Franco@outlook.com', courses: []},
-    {idPerson: 4, username: 'lgonzalez', password:'admin', name: 'Laura', lastname: 'Gonzalez', type:'student', email: 'Laura@outlook.com', courses: [{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
-    {idPerson: 5, username: 'admin', password:'admin', name: 'Miguel', lastname: 'Apellidito', type:'admin', email: 'Miguel@outlook.com', courses: []},
-    {idPerson: 6, username: 'user', password:'user', name: 'Joaquin', lastname: 'Algo', type:'user', email: 'Joaquin@outlook.com', courses: []},
-    {idPerson: 7, username: 'npipez', password:'admin', name: 'Nombrecito', lastname: 'Pipez', type:'user', email: 'Nombrecito@outlook.com', courses: []},
-    {idPerson: 8, username: 'puerpowi', password:'admin', name: 'Paula', lastname: 'Uerpowi', type:'user', email: 'Paula@outlook.com', courses: []},
+    {idPerson: 1, username: 'fgonzalez', password:'admin', name: 'Franco', lastName: 'Gonzalez', type:'student', email: 'Franco@outlook.com', courses: [{idCourse: 1, name: 'Análisis Matemático', idClassroom: 1},{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
+    {idPerson: 2, username: 'mgonzalez', password:'admin', name: 'Matias', lastName: 'Gonzalez', type:'student', email: 'Matias@outlook.com', courses: [{idCourse: 1, name: 'Análisis Matemático', idClassroom: 1},{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
+    {idPerson: 3, username: 'frgonzalez', password:'admin', name: 'Franco', lastName: 'Gonzalez', type:'student', email: 'Franco@outlook.com', courses: []},
+    {idPerson: 4, username: 'lgonzalez', password:'admin', name: 'Laura', lastName: 'Gonzalez', type:'student', email: 'Laura@outlook.com', courses: [{idCourse: 2, name: 'Organización Empresarial', idClassroom: 2}]},
+    {idPerson: 5, username: 'admin', password:'admin', name: 'Miguel', lastName: 'Apellidito', type:'admin', email: 'Miguel@outlook.com', courses: []},
+    {idPerson: 6, username: 'user', password:'user', name: 'Joaquin', lastName: 'Algo', type:'user', email: 'Joaquin@outlook.com', courses: []},
+    {idPerson: 7, username: 'npipez', password:'admin', name: 'Nombrecito', lastName: 'Pipez', type:'user', email: 'Nombrecito@outlook.com', courses: []},
+    {idPerson: 8, username: 'puerpowi', password:'admin', name: 'Paula', lastName: 'Uerpowi', type:'user', email: 'Paula@outlook.com', courses: []},
   ];
   dataCourses: Course[] = [
     {idCourse: 1, name: 'Análisis Matemático', idClassroom: 1},
@@ -30,10 +32,21 @@ export class DataService {
     {idClassroom: 3, name: 'Aula C255'},
   ]
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getStudents(): Observable<Person[]> {
-    return of(this.dataPersonsList);
+    //Alternativa
+    return this.http.get<Person[]>(environment.urlApi + 'person');
+
+    //Segunda forma
+    /* const request = this.http.get('https://62ce1595a43bf78008624d8e.mockapi.io/api/v1/person') as Observable<Person[]>;
+
+    return request; */
+
+    //Primera forma
+    //return of(this.dataPersonsList);
   }
 
   getCourses$(): Observable<Course[]> {
@@ -82,9 +95,14 @@ export class DataService {
   }
 
   addStudent(student: Person): void {
-    student.idPerson = this.dataPersonsList.length + 1;
+    this.http.post<Person[]>(environment.urlApi + 'person/', student).subscribe(resp=> {
+      console.log(resp)
+    },error => {
+      console.log(error)
+    });
+  /* student.idPerson = this.dataPersonsList.length + 1;
 
-    this.dataPersonsList.push(student);
+    this.dataPersonsList.push(student); */
   }
 
   addClassroomToStudent(idPerson: number, course: Course) {
@@ -117,7 +135,7 @@ export class DataService {
     })
   
     this.dataPersonsList[indexToEdit].name = student.name;
-    this.dataPersonsList[indexToEdit].lastname = student.lastname;
+    this.dataPersonsList[indexToEdit].lastName = student.lastName;
     this.dataPersonsList[indexToEdit].email = student.email;
   }
 
