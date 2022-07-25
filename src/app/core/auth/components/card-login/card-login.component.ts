@@ -31,13 +31,17 @@ export class CardLoginComponent implements OnInit {
     
     setTimeout(() => {
       this.loading = false;
-      this._authService.login(this.username, this.password)
-      .then((person: Person) => {
-        localStorage.setItem('token', 'asdadadas');          
-        this.router.navigate(['./']);
-      }).catch( error => {
+      this._authService.login()
+      .subscribe((resp: Person[]) => {
+        resp.forEach(element => {
+          if (element.username == this.username && element.password == this.password) {
+            localStorage.setItem('token', 'asdadadas');          
+            this.router.navigate(['./']);
+          }
+        })
+      }, error => {
         this.exists = false;
-      });
+      })
     }, 2000);
   }
 }

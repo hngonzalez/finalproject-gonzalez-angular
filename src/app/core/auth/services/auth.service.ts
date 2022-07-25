@@ -15,21 +15,8 @@ export class AuthService {
     private _dataService: DataService
   ) { }
 
-  login(username: string, password: string) {
-    let index = this._dataService.dataPersonsList.findIndex((person:Person) => {
-      return (person.username == username && person.password == password);
-    })
-
-    return new Promise((resolve, rejects) => {
-      const person = this._dataService.dataPersonsList[index];
-      if (person) {
-        this.curPerson = person;
-        localStorage.setItem('type', this.curPerson.type)
-        /* person.logged = true; */
-        return resolve(person)
-      }
-      rejects({mensaje: 'error'})
-    })
+  login() {
+    return this._dataService.getUsers();
   }
 
   logout() {

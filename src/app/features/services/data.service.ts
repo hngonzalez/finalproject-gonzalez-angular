@@ -36,6 +36,10 @@ export class DataService {
     private http: HttpClient
   ) { }
 
+  getUsers(): Observable<Person[]> {
+    return this.http.get<Person[]>(environment.urlApi + 'person');
+  }
+
   getStudents(): Observable<Person[]> {
     return this.http.get<Person[]>(environment.urlApi + 'person');
   }
@@ -75,18 +79,6 @@ export class DataService {
 
   getDataCoursesById(course: Course): Observable<Course> {
     return this.http.get<Course>(environment.urlApi + 'course/' + course.idCourse);
-/* 
-    let index = this.dataPersonsList.findIndex((person:Person) => {
-      return person.idPerson == personId;
-    })
-
-    return new Promise((resolve, rejects) => {
-      const person = this.dataPersonsList[index];
-      if (person) {
-        return resolve(person)
-      }
-      rejects({mensaje: 'error'})
-    }) */
   }
 
   getDataCoursesByCourseId(idCourse: number): Observable<Course> {
@@ -102,11 +94,8 @@ export class DataService {
       resp.courses = curCourses;
       this.addRelCourseStudent(resp);
     },error => {
-      console.log(error)
+      
     });
-  /* student.idPerson = this.dataPersonsList.length + 1;
-
-    this.dataPersonsList.push(student); */
   }
 
   addRelCourseStudent(resp: Person) {
@@ -128,6 +117,17 @@ export class DataService {
         });
       }
     })
+  }
+
+  addNewCourseToStudent(idCourse: number, idPerson: number) {
+    var obj = {};
+    
+    obj = {
+      "idCourse": idCourse,
+      "idPerson": idPerson
+    }
+
+    return this.http.post(environment.urlApi + 'rel-course-person', obj)
   }
 
   addClassroomToStudent(idPerson: number, course: Course) {

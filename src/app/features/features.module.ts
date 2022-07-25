@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { MaterialModule } from './../modules/material/material.module';
 
 import { NgModule } from '@angular/core';
@@ -17,7 +18,8 @@ import { ViewStudentCoursesModalComponent } from './components/view-student-cour
   imports: [
     CommonModule,
     FeaturesRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ]
 })
 export class FeaturesModule { }
