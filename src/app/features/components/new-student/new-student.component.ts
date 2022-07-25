@@ -24,11 +24,16 @@ export class NewStudentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.availableCourses = this._dataService.getCourses();
+    this._dataService.getCourses()
+    .subscribe((coursesList: Course[]) => {
+      this.availableCourses = coursesList;
+    }, error => {
+      console.log('no se pudo obtener el listado de personas')
+    });
     this.studentForm = this.fb.group({
       idPerson: new FormControl(""),
       name: new FormControl("", [Validators.required]),
-      lastname: new FormControl("", [Validators.required]),
+      lastName: new FormControl("", [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       course: new FormControl('')
     })
@@ -44,7 +49,7 @@ export class NewStudentComponent implements OnInit {
     let newStudent = new Person(
       this.studentForm.get('idPerson').value,
       this.studentForm.get('name').value,
-      this.studentForm.get('lastname').value,
+      this.studentForm.get('lastName').value,
       this.studentForm.get('email').value,
       this.arCourses,
       'student'

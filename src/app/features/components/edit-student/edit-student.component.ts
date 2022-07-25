@@ -21,7 +21,7 @@ export class EditStudentComponent implements OnInit {
     this.studentForm = this.fb.group({
       idPerson: new FormControl("", [Validators.required]),
       name: new FormControl("", [Validators.required]),
-      lastname: new FormControl("", [Validators.required]),
+      lastName: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email])
     })
   }
@@ -30,7 +30,7 @@ export class EditStudentComponent implements OnInit {
     this.studentForm.setValue({
       idPerson: this.data.elementRow.idPerson,
       name: this.data.elementRow.name,
-      lastname: this.data.elementRow.lastname,
+      lastName: this.data.elementRow.lastName,
       email: this.data.elementRow.email
     });
     console.log(this.data)
@@ -40,7 +40,7 @@ export class EditStudentComponent implements OnInit {
     let newStudent = new Person(
       this.studentForm.get('idPerson').value,
       this.studentForm.get('name').value,
-      this.studentForm.get('lastname').value,
+      this.studentForm.get('lastName').value,
       this.studentForm.get('email').value,
     );
 

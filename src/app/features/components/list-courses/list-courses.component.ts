@@ -29,7 +29,7 @@ export class ListCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.curUser = localStorage.getItem('type');
-    this.dataCoursesList$ = this._dataService.getCourses$()
+    this.dataCoursesList$ = this._dataService.getCourses()
     .subscribe((coursesList: Course[]) => {
       this.dataCoursesList = coursesList;
     }, error => {
@@ -70,6 +70,15 @@ export class ListCoursesComponent implements OnInit {
    * @param elementRow elemento a modificar
    */
   onDelete(elementRow: any) {
-    this._dataService.deleteCourse(elementRow);
+    this._dataService.deleteCourse(elementRow)
+    .subscribe( (courseAux: Course) => {
+      let indexToDelete = this.dataCoursesList.findIndex((course: Course) => {
+        return courseAux.idCourse == course.idCourse;
+      });
+
+      this.dataCoursesList.splice(indexToDelete, 1);
+    }, error => {
+
+    });
   }
 }

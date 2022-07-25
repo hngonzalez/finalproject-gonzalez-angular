@@ -30,10 +30,17 @@ export class DetailsCourseComponent implements OnInit {
   }
 
   onDelete(idCourse: number, idPerson: number) {
-    this._dataService.deleteStudentFromCourse(idCourse, idPerson);
-    var index = this.curStudents.findIndex((person: Person) => {
-      return person.idPerson == idPerson
+    this._dataService.getRelCoursePerson().subscribe( resp =>{
+      resp.forEach(element => {
+        if (element.idCourse == idCourse && element.idPerson == idPerson) {
+          this._dataService.deleteStudentFromCourse(element.id).subscribe( resp2 => {
+            var index = this.curStudents.findIndex((person: Person) => {
+              return person.idPerson == idPerson
+            })
+            this.curStudents.splice(index, 1);
+          });
+        }
+      });
     })
-    this.curStudents.splice(index, 1);
   }
 }

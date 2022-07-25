@@ -5,11 +5,14 @@ import { CommonModule } from '@angular/common';
 
 import { FeaturesRoutingModule } from './features-routing.module';
 import { FeaturesComponent } from './features.component';
+import { ViewStudentCoursesModalComponent } from './components/view-student-courses-modal/view-student-courses-modal.component';
+
 
 
 @NgModule({
   declarations: [
-    FeaturesComponent
+    FeaturesComponent,
+    ViewStudentCoursesModalComponent
   ],
   imports: [
     CommonModule,

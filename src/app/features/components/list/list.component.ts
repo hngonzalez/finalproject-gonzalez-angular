@@ -7,6 +7,7 @@ import { Person } from '../../models/person.model';
 import { DataService } from '../../services/data.service';
 import { EditCoursesComponent } from '../edit-courses/edit-courses.component';
 import { NewStudentComponent } from '../new-student/new-student.component';
+import { ViewStudentCoursesModalComponent } from '../view-student-courses-modal/view-student-courses-modal.component';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +22,7 @@ export class ListComponent implements OnInit, OnDestroy {
   curUser: string;
   confirmation: boolean = false;
   
-  displayedColumns: string[] = ['idPerson', 'name', 'lastname', 'email', 'curso', 'actions'];
+  displayedColumns: string[] = ['idPerson', 'name', 'lastName', 'email', 'curso', 'actions'];
   
   constructor(
     private _dataService: DataService,
@@ -49,7 +50,7 @@ export class ListComponent implements OnInit, OnDestroy {
    * @param elementRow elemento a modificar
    */
   openCourses(elementRow: any) {
-    const dialogRef = this.dialog.open(EditCoursesComponent, {
+    const dialogRef = this.dialog.open(ViewStudentCoursesModalComponent, {
       width: '50%',
       height: '80%',
       data: {elementRow},
@@ -74,7 +75,16 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   deleteStudent(student: Person) {
-    this._dataService.deleteStudent(student);
+    this._dataService.deleteStudent(student)
+    .subscribe( resp => {
+      let indexToDelete = this.dataPersonsList.findIndex((studentAux: Person) => {
+        return studentAux.idPerson == student.idPerson;
+      });
+
+      this.dataPersonsList.splice(indexToDelete, 1);
+    }, error => {
+      console.log(error)
+    });
   }
   
 }

@@ -37,50 +37,45 @@ export class DataService {
   ) { }
 
   getStudents(): Observable<Person[]> {
-    //Alternativa
     return this.http.get<Person[]>(environment.urlApi + 'person');
-
-    //Segunda forma
-    /* const request = this.http.get('https://62ce1595a43bf78008624d8e.mockapi.io/api/v1/person') as Observable<Person[]>;
-
-    return request; */
-
-    //Primera forma
-    //return of(this.dataPersonsList);
   }
 
-  getCourses$(): Observable<Course[]> {
-    return of(this.dataCourses);
-  }
-
-  getCourses(): Course[] {
-    return this.dataCourses;
+  getCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(environment.urlApi + 'course');
   }
 
   getClassrooms(): Classroom[] {
     return this.dataClassrooms;
   }
 
-  getStudentsByCourseId(idCourse: number): Observable<Person[]> {
-    let dataPersons = new Array();
-
-    this.dataPersonsList.forEach(element => {
-      if (element) {
-        element.courses.forEach(course => {
-          if (course) {
-            
-          if (course.idCourse == idCourse) {
-            dataPersons.push(element);
-          }
-          }
-        })
-      }
-    });
-
-    return of(dataPersons);
+  getRelCoursePerson(): Observable<any[]> {
+    return this.http.get<any[]>(environment.urlApi + 'rel-course-person');
   }
 
-  getDataCoursesById(personId: number): Promise<Person> {
+  getStudentById(idPerson: number):  Observable<Person> {
+    return this.http.get<Person>(environment.urlApi + 'person/' + idPerson);
+  }
+
+  getStudentsByCourseId(idCourse: number) {
+    var arStudents = [];
+    this.http.get(environment.urlApi + 'rel-course-person')
+    .subscribe((rel:any) => {
+      rel.forEach(element => {
+        if (element.idCourse == idCourse) {
+          this.getStudentById(element.idPerson)
+          .subscribe((person: Person) => {
+            arStudents.push(person);
+          }) 
+        }
+      });
+    });
+
+    return of(arStudents);
+  }
+
+  getDataCoursesById(course: Course): Observable<Course> {
+    return this.http.get<Course>(environment.urlApi + 'course/' + course.idCourse);
+/* 
     let index = this.dataPersonsList.findIndex((person:Person) => {
       return person.idPerson == personId;
     })
@@ -91,18 +86,48 @@ export class DataService {
         return resolve(person)
       }
       rejects({mensaje: 'error'})
-    })
+    }) */
+  }
+
+  getDataCoursesByCourseId(idCourse: number): Observable<Course> {
+    return this.http.get<Course>(environment.urlApi + 'course/' + idCourse);
   }
 
   addStudent(student: Person): void {
-    this.http.post<Person[]>(environment.urlApi + 'person/', student).subscribe(resp=> {
-      console.log(resp)
+    var curCourses = student.courses;
+    student.courses = [];
+
+    this.http.post(environment.urlApi + 'person/', student)
+    .subscribe((resp: Person) => {
+      resp.courses = curCourses;
+      this.addRelCourseStudent(resp);
     },error => {
       console.log(error)
     });
   /* student.idPerson = this.dataPersonsList.length + 1;
 
     this.dataPersonsList.push(student); */
+  }
+
+  addRelCourseStudent(resp: Person) {
+    var obj = {};
+    
+    resp.courses.forEach((course: Course) => {
+      if (course.idCourse) {
+        
+        obj = {
+          "idCourse": <number>course.idCourse,
+          "idPerson": resp.idPerson
+        }
+        console.log(obj)        
+        this.http.post(environment.urlApi + 'rel-course-person', obj)
+        .subscribe(resp2 => {
+          console.log(resp2)
+        }, error => {
+          console.log(error)
+        });
+      }
+    })
   }
 
   addClassroomToStudent(idPerson: number, course: Course) {
@@ -118,9 +143,11 @@ export class DataService {
    * @param course nuevo curso a agregar
    */
   addCourse(course: Course) {
-    course.idCourse = this.dataCourses.length + 1;
-    
-    this.dataCourses.push(course);
+    this.http.post<Course[]>(environment.urlApi + 'course/', course).subscribe(resp=> {
+      console.log(resp)
+    },error => {
+      console.log(error)
+    });
   }
 
   addClassroom(classroom: Classroom) {
@@ -156,6 +183,16 @@ export class DataService {
     this.dataClassrooms[indexToEdit].name = classroom.name;
   }
 
+  updateStudent(student: Person) {
+    return this.http.put(environment.urlApi + 'person/' + student.idPerson, student);
+  }
+
+  updateCourse(idCourse: number, courseName: string) {
+    let course = new Course(idCourse, courseName, Math.random());
+
+    return this.http.put(environment.urlApi + 'course/' + idCourse, course);
+  }
+
   removeClassroom(idPerson: number, idCourse: number) {
     let indexClassToRemove = this.dataPersonsList.findIndex((person:Person) => {
       return person.idPerson == idPerson;
@@ -168,53 +205,15 @@ export class DataService {
     this.dataPersonsList[indexClassToRemove].courses.splice(indexClass2ToRemove,1);
   }
 
-  deleteStudent(student: Person) {
-    let indexToDelete = this.dataPersonsList.findIndex( (person:Person) => {
-      return person.idPerson == student.idPerson;
-    })
-
-    this.dataPersonsList.splice(indexToDelete, 1);
+  deleteStudent(student: Person): Observable<Person> {
+    return this.http.delete<Person>(environment.urlApi + 'person/' + student.idPerson);
   }
 
-  deleteCourse(selectedCourse: Course) {
-    let indexToDelete = this.dataCourses.findIndex((course: Course) => {
-      return course.idCourse == selectedCourse.idCourse;
-    });
-
-    this.dataPersonsList.forEach(person => {
-      /* var index = person.courses.findIndex(courseAux => {
-        if (courseAux.idCourse == course.idCourse) {
-          console.log(person)
-          person.courses.splice(index, 1);
-          console.log(person)
-        }
-      }) */
-    })
-
-    this.dataCourses.splice(indexToDelete, 1);
+  deleteCourse(course: Course): Observable<Course> {
+    return this.http.delete<Course>(environment.urlApi + 'course/' + course.idCourse);
   }
 
-  deleteStudentFromCourse(idCourse: number, idPerson: number) {
-    this.dataPersonsList.forEach(element => {
-      if (element.type == 'student' && element.idPerson == idPerson) {
-        var index = element.courses.findIndex((course: Course) => {
-          return course.idCourse == idCourse
-        })
-
-        element.courses.splice(index, 1);
-      }
-    });
-    let indexToDelete = this.dataPersonsList.findIndex( (person:Person) => {
-      
-    })
-  }
-
-  updateCourse(course: string, idCourse: number) {
-    console.log(course)
-    let indexToUpdate = this.dataCourses.findIndex((course: Course) => {
-      return course.idCourse == idCourse;
-    });
-
-    this.dataCourses[indexToUpdate].name = course;
+  deleteStudentFromCourse(idRel: number): Observable<any> {
+    return this.http.delete<any>(environment.urlApi + 'rel-course-person/' + idRel);
   }
 }
