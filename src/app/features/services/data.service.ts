@@ -143,11 +143,7 @@ export class DataService {
    * @param course nuevo curso a agregar
    */
   addCourse(course: Course) {
-    this.http.post<Course[]>(environment.urlApi + 'course/', course).subscribe(resp=> {
-      console.log(resp)
-    },error => {
-      console.log(error)
-    });
+    return this.http.post<Course[]>(environment.urlApi + 'course/', course);
   }
 
   addClassroom(classroom: Classroom) {
@@ -167,7 +163,6 @@ export class DataService {
   }
 
   editCourse(course: Course) {
-    console.log(course)
     let indexToEdit= this.dataCourses.findIndex((courseElement:Course) => {
       return courseElement.idCourse == course.idCourse;
     })

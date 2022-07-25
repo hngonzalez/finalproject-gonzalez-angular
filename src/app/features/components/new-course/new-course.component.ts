@@ -58,7 +58,12 @@ export class NewCourseComponent implements OnInit {
   onSave() {
     this.saved = false;
     let newCourse = new Course(undefined, this.courseForm.get('name').value, undefined);
-    this._dataService.addCourse(newCourse);
+    this._dataService.addCourse(newCourse)
+    .subscribe(resp => {
+      console.log(resp)
+    },error => {
+      console.log(error)
+    });
     setTimeout(() => {
       this.saved = true;
     }, 1500);
