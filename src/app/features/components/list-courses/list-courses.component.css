@@ -10,7 +10,10 @@ table {
     text-align: center;
 }
 
-.td-actions {
-    display: flex;
-    justify-content: space-around;
+.actions {
+    width: 40%;
+}
+
+button {
+    margin: 0 10px;
 }

@@ -9,3 +9,11 @@ table {
     width: 90%;
     text-align: center;
 }
+
+.actions {
+    width: 30%;
+}
+
+button {
+    margin: 0 10px;
+}

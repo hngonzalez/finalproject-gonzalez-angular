@@ -66,7 +66,7 @@ export class ListComponent implements OnInit, OnDestroy {
    */
   editStudent(elementRow: any) {
     const dialogRef = this.dialog.open(EditStudentComponent, {
-      width: '50%',
+      width: '20%',
       data: {elementRow},
     });
 
