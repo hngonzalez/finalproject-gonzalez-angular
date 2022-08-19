@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Classroom } from './../models/classroom';
 import { Course } from './../models/course';
@@ -38,6 +38,28 @@ export class DataService {
 
   getUsers(): Observable<Person[]> {
     return this.http.get<Person[]>(environment.urlApi + 'person');
+  }
+
+  getUsers2(username: string, password: string): Observable<Person[]> {
+    return this.http.get<Person[]>(environment.urlApi + 'person').pipe(
+      map((persons) => {
+        return persons ? persons : null
+      }),
+      catchError((error) => {
+        throw new Error(); 
+      })
+    );
+  }
+
+  getUsersLogin(username: string, password: string): Observable<Person | null> {
+    return this.http.get<Person[]>(environment.urlApi + 'person').pipe(
+      map((persons) => {
+        return persons.find(person => person.username == username && person.password == password) || null
+      }),
+      catchError((error) => {
+        throw new Error(); 
+      })
+    );
   }
 
   getStudents(): Observable<Person[]> {
@@ -108,12 +130,9 @@ export class DataService {
           "idCourse": <number>course.idCourse,
           "idPerson": resp.idPerson
         }
-        console.log(obj)        
         this.http.post(environment.urlApi + 'rel-course-person', obj)
         .subscribe(resp2 => {
-          console.log(resp2)
         }, error => {
-          console.log(error)
         });
       }
     })

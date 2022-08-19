@@ -30,7 +30,6 @@ export class ViewStudentCoursesModalComponent implements OnInit {
     .subscribe((coursesList: Course[]) => {
       this.availableCourses = coursesList;
     }, error => {
-      console.log('no se pudo obtener el listado de personas')
     });
   }
 

@@ -1,3 +1,6 @@
+import { PersonsEffectsService } from './store/effects/person.effects';
+import { PersonsReducer } from './store/reducers/person.reducer';
+import { LoginEffectsService } from './store/effects/login.effects';
 import { MaterialModule } from './modules/material/material.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +26,11 @@ import { InscriptionsComponent } from './features/pages/inscriptions/inscription
 import { ListCoursesComponent } from './features/components/list-courses/list-courses.component';
 import { DetailsCourseComponent } from './features/components/details-course/details-course.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -51,7 +59,10 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([LoginEffectsService, PersonsEffectsService]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

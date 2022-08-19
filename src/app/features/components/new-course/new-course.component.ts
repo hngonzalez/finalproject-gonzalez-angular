@@ -1,7 +1,7 @@
 import { Classroom } from './../../models/classroom';
 import { Course } from './../../models/course';
 import { DataService } from './../../services/data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -19,6 +19,8 @@ export class NewCourseComponent implements OnInit {
   saved: boolean = true;
   course!: Course;
   newCourse: string = '';
+  
+  @Output() evtCorse: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +36,7 @@ export class NewCourseComponent implements OnInit {
   }
 
   onChange() {
-    console.log(this.course)
+    
     this.courseForm.setValue({
       idCourse: this.course.idCourse,
       name: this.course.name,
@@ -55,14 +57,15 @@ export class NewCourseComponent implements OnInit {
     this.courseForm.reset();
   }
 
+  
   onSave() {
     this.saved = false;
     let newCourse = new Course(undefined, this.courseForm.get('name').value, undefined);
     this._dataService.addCourse(newCourse)
     .subscribe(resp => {
-      console.log(resp)
+      this.evtCorse.emit(resp)
     },error => {
-      console.log(error)
+      
     });
     setTimeout(() => {
       this.saved = true;

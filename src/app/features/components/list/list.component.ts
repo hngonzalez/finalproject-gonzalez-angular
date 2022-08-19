@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { AuthService } from './../../../core/auth/services/auth.service';
 import { Subscription } from 'rxjs';
 import { EditStudentComponent } from './../edit-student/edit-student.component';
@@ -27,7 +28,8 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(
     private _dataService: DataService,
     private _dataAuth: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.curUser = localStorage.getItem('type')
     this.dataPersonsList$ = this._dataService.getStudents()
     .subscribe((studentList:Person[]) => {
+      console.log(studentList)
       this.dataPersonsList = studentList;
     }, error => {
       console.log('no se pudo obtener el listado de personas')

@@ -42,7 +42,6 @@ export class EditCoursesComponent implements OnInit {
       this.courseForm.controls['idCourse'].setValue(course.idCourse);
       this.courseForm.controls['name'].setValue(course.name);
     },error => {
-      console.log(error)
     });
     
   }
@@ -55,7 +54,6 @@ export class EditCoursesComponent implements OnInit {
   }
 
   unsubscribeToClassroom(idCourse: number, idPerson: number) {
-    console.log(idCourse,idPerson)
     //this._dataService.deleteStudentFromCourse(idCourse, idPerson);
     /* var index = this.curStudents.findIndex((person: Person) => {
       return person.idPerson == idPerson

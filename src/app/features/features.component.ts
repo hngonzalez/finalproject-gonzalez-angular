@@ -1,3 +1,5 @@
+import { LOGOUT_ACTIONS } from './../store/actions/login.actions';
+import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,13 +11,15 @@ import { Component, OnInit } from '@angular/core';
 export class FeaturesComponent implements OnInit {
 
   constructor(
-    private _authService: AuthService
+    private _authService: AuthService,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
   }
 
   onLogout() {
-    this._authService.logout()
+    this.store.dispatch(LOGOUT_ACTIONS.logout.run());
+    /* this._authService.logout() */
   }
 }

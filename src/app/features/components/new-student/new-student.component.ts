@@ -28,7 +28,6 @@ export class NewStudentComponent implements OnInit {
     .subscribe((coursesList: Course[]) => {
       this.availableCourses = coursesList;
     }, error => {
-      console.log('no se pudo obtener el listado de personas')
     });
     this.studentForm = this.fb.group({
       idPerson: new FormControl(""),

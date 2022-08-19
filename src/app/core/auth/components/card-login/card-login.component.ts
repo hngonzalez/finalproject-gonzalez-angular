@@ -1,3 +1,6 @@
+import { LOGIN_SELECTORS } from './../../../../store/selectors/login.selectors';
+import { Observable } from 'rxjs';
+import { LOGIN_ACTIONS } from './../../../../store/actions/login.actions';
 import { User } from './../../models/user';
 import { DataService } from './../../../../features/services/data.service';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +8,7 @@ import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AuthService } from '../../services/auth.service';
 import { Person } from 'src/app/features/models/person.model';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-card-login',
@@ -13,20 +17,28 @@ import { Person } from 'src/app/features/models/person.model';
 })
 export class CardLoginComponent implements OnInit {
   loading: boolean = false;
+  /* loading$: Observable<boolean> = this.store.select(LOGIN_SELECTORS.selectGetPerson); */
+  loading$: Observable<boolean> = this.store.select(LOGIN_SELECTORS.selectGetLoginLoading);
   exists: boolean = true;
   username: string = '';
   password: string = '';
 
   constructor(
     private router: Router,
-    private _authService:AuthService
+    private _authService:AuthService,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    this.loading = true;
+    this.store.dispatch(LOGIN_ACTIONS.login.run({
+      user: this.username,
+      password: this.password
+    }));
+
+    /* this.loading = true;
     this.exists = true;
     
     setTimeout(() => {
@@ -42,6 +54,6 @@ export class CardLoginComponent implements OnInit {
       }, error => {
         this.exists = false;
       })
-    }, 2000);
+    }, 2000); */
   }
 }

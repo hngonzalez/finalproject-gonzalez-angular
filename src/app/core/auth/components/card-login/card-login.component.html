@@ -27,6 +27,6 @@
     </mat-card-actions>
     <mat-label class="error" *ngIf="!exists">Revise los datos ingresados</mat-label>
     <mat-card-footer>
-        <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate" *ngIf="loading$ | async"></mat-progress-bar>
     </mat-card-footer>
 </mat-card>

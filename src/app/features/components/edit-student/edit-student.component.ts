@@ -1,6 +1,6 @@
 import { DataService } from './../../services/data.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Person } from '../../models/person.model';
 
@@ -33,7 +33,6 @@ export class EditStudentComponent implements OnInit {
       lastName: this.data.elementRow.lastName,
       email: this.data.elementRow.email
     });
-    console.log(this.data)
   }
 
   onSave() {
