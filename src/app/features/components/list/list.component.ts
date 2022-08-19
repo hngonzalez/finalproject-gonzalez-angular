@@ -37,7 +37,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.curUser = localStorage.getItem('type')
     this.dataPersonsList$ = this._dataService.getStudents()
     .subscribe((studentList:Person[]) => {
-      console.log(studentList)
       this.dataPersonsList = studentList;
     }, error => {
       console.log('no se pudo obtener el listado de personas')
