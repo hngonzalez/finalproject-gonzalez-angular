@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const initialLoginState = {\n  person: null,\n  token: null,\n  loading: false\n};\nexport const initialLogoutState = {\n  loading: false\n};","map":null,"metadata":{},"sourceType":"module"}

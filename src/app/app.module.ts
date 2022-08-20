@@ -31,6 +31,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { appReducers } from './store/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { PruebaComponent } from './prueba/prueba.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { environment } from '../environments/environment';
     StudentsComponent,
     InscriptionsComponent,
     ListCoursesComponent,
-    DetailsCourseComponent
+    DetailsCourseComponent,
+    PruebaComponent
   ],
   imports: [
     AppRoutingModule,

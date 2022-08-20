@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const initialPersonsState = {\n  error: null,\n  loading: false,\n  loaded: false,\n  selectedPerson: null,\n  persons: []\n};","map":null,"metadata":{},"sourceType":"module"}

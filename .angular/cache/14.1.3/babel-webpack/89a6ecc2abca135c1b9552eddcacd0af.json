@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { createAction, props } from \"@ngrx/store\";\nexport const PERSONS_ACTIONS = {\n  load: {\n    run: createAction('[Persons] cargar personas', props()),\n    success: createAction('[Persons] cargar personas success', props()),\n    failed: createAction('[Persons] cargar personas failed')\n  }\n};","map":null,"metadata":{},"sourceType":"module"}

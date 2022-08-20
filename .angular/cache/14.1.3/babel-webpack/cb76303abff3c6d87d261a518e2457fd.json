@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Course {\n  constructor(idCourse, name, idClassroom) {\n    this.idCourse = idCourse;\n    this.name = name;\n    this.idClassroom = idClassroom;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

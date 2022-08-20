@@ -5,7 +5,6 @@ import { User } from './../../models/user';
 import { DataService } from './../../../../features/services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AuthService } from '../../services/auth.service';
 import { Person } from 'src/app/features/models/person.model';
 import { Store } from '@ngrx/store';
