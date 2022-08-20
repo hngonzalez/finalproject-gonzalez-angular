@@ -48,6 +48,14 @@ export class ListCoursesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result)
+        let indexToUpdate = this.dataCoursesList.findIndex((course: Course) => {
+          return course.idCourse == result.idCourse;
+        });
+  
+        this.dataCoursesList[indexToUpdate] = result;
+      }
     });
   }
 

@@ -73,6 +73,13 @@ export class ListComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let indexToUpdate = this.dataPersonsList.findIndex((studentAux: Person) => {
+          return studentAux.idPerson == result.idPerson;
+        });
+  
+        this.dataPersonsList[indexToUpdate] = result;
+      }
     });
   }
 

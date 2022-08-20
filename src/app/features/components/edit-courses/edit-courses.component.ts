@@ -18,7 +18,6 @@ export class EditCoursesComponent implements OnInit {
   studentCourses$?: Subscription = new Subscription;
   availableCourses?: any;
   curCourse!: string;
-  curStudent: number;
   loaded: boolean = true;
   exist: boolean = false;
   
@@ -36,7 +35,6 @@ export class EditCoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.curStudent = this.data.elementRow
     this._dataService.getDataCoursesById(this.data.elementRow)
     .subscribe( (course: Course) => {
       this.courseForm.controls['idCourse'].setValue(course.idCourse);
@@ -47,9 +45,16 @@ export class EditCoursesComponent implements OnInit {
   }
 
   onSave() {
-    this._dataService.updateCourse(this.data.elementRow.idCourse, this.curCourse);
-    this._snackBar.open('Cambios realizados!', '', {
-      duration: 1500
+    this.curCourse = this.courseForm.get('name').value;
+    
+    this._dataService.updateCourse(this.data.elementRow.idCourse, this.curCourse)
+    .subscribe( resp => {
+      this._snackBar.open('Cambios realizados!', '', {
+        duration: 1500
+      });
+      this.dialogRef.close(resp);
+    }, error => {
+      console.log(error)
     });
   }
 

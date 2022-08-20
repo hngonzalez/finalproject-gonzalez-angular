@@ -43,7 +43,12 @@ export class EditStudentComponent implements OnInit {
       this.studentForm.get('email').value,
     );
 
-    this._dataService.editStudent(newStudent);
+    this._dataService.updateStudent(newStudent)
+    .subscribe( resp => {
+      this.dialogRef.close(resp)
+    }, error => {
+      console.log(error)
+    });
   }
 
 }

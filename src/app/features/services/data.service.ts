@@ -204,7 +204,7 @@ export class DataService {
   updateCourse(idCourse: number, courseName: string) {
     let course = new Course(idCourse, courseName, Math.random());
 
-    return this.http.put(environment.urlApi + 'course/' + idCourse, course);
+    return this.http.put(environment.urlApi + 'course/' + course.idCourse, course);
   }
 
   removeClassroom(idPerson: number, idCourse: number) {
